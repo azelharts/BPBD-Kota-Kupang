@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body{
+    font-family: "roboto";
+    line-height: 1.3 ;
+}
+
+a{
+    text-decoration: none;
+    transition: all 0.4s ease;
+    font-weight: 800;
+}
+.roboto-thin {
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+  }
+  
+  .roboto-light {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  .roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .roboto-medium {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  .roboto-bold {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .roboto-black {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+  }
+  
+  .roboto-thin-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-style: italic;
+  }
+  
+  .roboto-light-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+  }
+  
+  .roboto-regular-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  .roboto-medium-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: italic;
+  }
+  
+  .roboto-bold-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+  }
+  
+  .roboto-black-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: italic;
+  }
+  
+.main-color {
+    background-color: aliceblue;
+}
+
+.warna2{
+    background-color: antiquewhite;
+}
+
+.banner{
+    height: 300vh;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../image/bpbd.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.banner2{
+    height: 200vh;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../image/slider1.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.belakang{
+    height: 150vh;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('../image/bpbd.jpg');
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top:80px;
+    left: 0;
+    bottom: 0;
+    right:0;
+}
+
+.carousel-item{
+    height: 150vh;
+    min-height: 300px;
+    background: no-repeat scroll center scroll;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+.carousel-item::before{
+    content:"";
+    display: block;
+    position: absolute;
+    top: 0;;
+    left: 0;
+    bottom: 0;
+    right:0;
+}
+
+.carousel-caption{
+    bottom: 350px;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.carousel-caption h5{
+    color:whitesmoke;
+    font-size: 90px;
+    font-weight: 700;
+}
+
+.carousel-caption h2{
+    color:white;
+    font-size: 100px;
+    font-weight: 900;
+}
+.carousel-caption p{
+    color:whitesmoke;
+    font-size: 18px;
+    top: 2rem;
+}
+
+.slider-btn{
+    margin-top:30px;
+}
+
+.slider-btn .btn {
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 0;
+    padding:1, 5rem 2rem;
+    font-size:1 rem;
+    margin-right: 15px;
+}
