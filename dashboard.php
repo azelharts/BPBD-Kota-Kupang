@@ -1,13 +1,12 @@
 <?php
-    require "session.php";
-    require "koneksi.php";
+require "session.php";
+require "koneksi.php";
 
-    $querykejadian = mysqli_query ($con, "SELECT * FROM kejadian");
-    $jumlahkejadian = mysqli_num_rows($querykejadian);
+$querykejadian = mysqli_query($con, "SELECT * FROM kejadian");
+$jumlahkejadian = mysqli_num_rows($querykejadian);
 
-    $queryinput= mysqli_query($con, "SELECT * FROM cuaca");
-    $jumlahinput = mysqli_num_rows($queryinput);
-
+$queryinput = mysqli_query($con, "SELECT * FROM cuaca");
+$jumlahinput = mysqli_num_rows($queryinput);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,78 +15,85 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="fontawesome/css/fontawesome.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 
-<style>
-    .kotak {
-        border:solid;
-    }
-    .summary-kejadian{
-        background-color: #379777;
-        border-radius:15px;
-    }
+<body class="bg-gray-50 text-gray-800">
+<?php require "navbar-dashboard.php"; ?>
 
-    .summary-cuaca{
-        background-color: #FFA823;
-        border-radius:15px;
-    }
-    .no-decoration{
-        text-decoration: none;
-    }
-</style>
-<body>
-    <?php require "navigation.php"; ?>
-    <div class="container mt-5">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">
-                    <i class="fas fa-home"></i> Dashboard
-                </li>
-            </ol>
-        </nav>
-        <h2>Halo <?php echo $_SESSION['username']; ?> </h2>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+    <!-- breadcrumb -->
+    <nav class="text-sm text-gray-500 mb-6">
+        <ol class="flex items-center space-x-2">
+            <li class="flex items-center gap-1">
+                <i data-lucide="home" class="w-4 h-4"></i>
+                <span class="text-amber-600 font-medium">Dashboard</span>
+            </li>
+        </ol>
+    </nav>
 
-        <div class="container mt-5">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-12 mb-3">
-                    <div class="summary-kejadian p-3">
-                        <div class="row">
-                            <div class="col-6">
-                                <i class="fas fa-align-justify fa-7x text-white-50"></i>
-                            </div>
-                            <div class="col-6 text-white">
-                                <h3 class="fs-5">Data Kejadian & Dampak Bencana</h3>
-                                <p class="fs-8"><?php echo $jumlahkejadian; ?> kejadian</p>
-                                <p><a href="kejadian.php" class="text-white no-decoration">Lihat Detail</a></p>
+    <!-- greeting -->
+    <h1 class="text-2xl md:text-3xl font-extrabold mb-8">Halo, <?= htmlspecialchars(
+        $_SESSION["username"]
+    ) ?></h1>
+
+    <!-- summary cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <!-- Data Kejadian -->
+        <div class="bg-emerald-500 rounded-2xl shadow-lg p-6 text-white">
+            <div class="flex flex-col items-center justify-between h-full">
+                <div>
+                    <div class="flex items-start gap-x-4 h-full">
+                        <i data-lucide="file-text" class="w-14 h-14 opacity-20"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold">Data Kejadian & Dampak Bencana</h3>
+                            <div class="flex justify-between items-center">
+                                <p class="text-sm opacity-90 mt-1"><?= $jumlahkejadian ?> kejadian</p>
+                                <a href="list-kejadian.php" class="inline-flex items-center gap-1 text-sm mt-3 border border-white/30 rounded-full px-3 py-1 hover:bg-white/10">
+                        Lihat Detail <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-4 col-md-6 col-12 mb-3">
-                    <div class="summary-cuaca p-3">
-                        <div class="row">
-                            <div class="col-6">
-                                <i class="fas fa-cloud-rain fa-7x text-white-50"></i>
-                            </div>
-                            <div class="col-6 text-white">
-                                <h3 class="fs-5">Data Prakiraan Cuaca Kupang</h3>
-                                <p class="fs-8"><?php echo $jumlahinput; ?> prakiraan</p>
-                                <p><a href="listcuaca.php" class="text-white no-decoration">Lihat Detail</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
-        <div class="mt-5 col-12">
-            <h3 class="fs-5 mt-3">Peta Kebencanaan Kota Kupang</h3>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125666.24984448765!2d123.53231649798145!3d-10.174940697042773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2c569b6760b37163%3A0x26030bfcc0920532!2sKupang%2C%20Kota%20Kupang%2C%20Nusa%20Tenggara%20Tim.!5e0!3m2!1sid!2sid!4v1720509366298!5m2!1sid!2sid" width="1200" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+        <!-- Data Cuaca -->
+        <div class="bg-amber-500 rounded-2xl shadow-lg p-6 text-white">
+            <div class="flex flex-col items-center justify-between h-full">
+                <div>
+                    <div class="flex items-start gap-x-4 h-full">
+                        <i data-lucide="cloud-rain" class="w-14 h-14 opacity-20"></i>
+                        <div>
+                            <h3 class="text-xl font-semibold">Data Prakiraan Cuaca Wilayah Perairan</h3>
+                            <div class="flex justify-between items-center">
+                                <p class="text-sm opacity-90 mt-1"><?= $jumlahinput ?> prakiraan</p>
+                                <a href="list-cuaca.php" class="inline-flex items-center gap-1 text-sm mt-3 border border-white/30 rounded-full px-3 py-1 hover:bg-white/10">
+                        Lihat Detail <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </div>
-    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="fontawesome/js/all.min.js"></script>
+
+    <!-- Disaster map -->
+    <section>
+        <h2 class="text-xl font-bold mb-4">Peta Kebencanaan Kota Kupang</h2>
+        <div class="aspect-video w-full rounded-2xl overflow-hidden shadow-lg">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125666.24984448765!2d123.53231649798145!3d-10.174940697042773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2c569b6760b37163%3A0x26030bfcc0920532!2sKupang%2C%20Kota%20Kupang%2C%20Nusa%20Tenggara%20Tim.!5e0!3m2!1sid!2sid!4v1720509366298!5m2!1sid!2sid"
+                    class="w-full h-full border-0"
+                    allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+</main>
+
+<script>lucide.createIcons();</script>
 </body>
 </html>

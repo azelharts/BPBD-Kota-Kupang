@@ -1,17 +1,20 @@
 <?php
-    require "koneksi.php";
-    $prakiraan= mysqli_query($con, "SELECT * FROM cuaca");
-    $tampil = mysqli_fetch_array($prakiraan);
-    function generateRandomString($length = 10){
-        $characters ='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i <$length; $i++){
-            $randomString .=$characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
+require "koneksi.php";
+$prakiraan = mysqli_query($con, "SELECT * FROM cuaca");
+$tampil = mysqli_fetch_array($prakiraan);
+function generateRandomString($length = 10)
+{
+    $characters =
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $charactersLength = strlen($characters);
+    $randomString = "";
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
+    return $randomString;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,8 +37,11 @@
 <section class="relative w-full h-[100svh] overflow-hidden pt-16">
     <!-- slides -->
     <div id="slides" class="relative w-full h-full">
-        <?php for($i=1;$i<=5;$i++): ?>
-        <div class="slide absolute inset-0 transition-opacity duration-700 <?= $i===1 ? 'opacity-100' : 'opacity-0' ?>">
+        <?php for ($i = 1; $i <= 5; $i++): ?>
+        <div class="slide absolute inset-0 transition-opacity duration-700 <?= $i ===
+        1
+            ? "opacity-100"
+            : "opacity-0" ?>">
             <img src="images/slider<?= $i ?>.png" alt="" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black/40 w-full flex items-center justify-center">
                 <div class="text-center text-white px-4">
@@ -59,18 +65,24 @@
 
     <!-- dots -->
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
-        <?php for($i=1;$i<=5;$i++): ?>
-        <span class="dot <?= $i===1 ? 'active' : '' ?>" onclick="currentSlide(<?= $i ?>)"></span>
+        <?php for ($i = 1; $i <= 5; $i++): ?>
+        <span class="dot <?= $i === 1
+            ? "active"
+            : "" ?>" onclick="currentSlide(<?= $i ?>)"></span>
         <?php endfor; ?>
     </div>
 </section>
 
 <!-- ========== WEATHER CARD ========== -->
-<section class="max-w-5xl mx-auto px-4 py-10">
+<section class="max-w-5xl w-fit mx-auto px-4 py-10">
     <h3 class="text-2xl font-bold text-center mb-6">Info Prakiraan Cuaca</h3>
-    <div class="bg-white rounded-2xl shadow-md p-6 text-center">
-        <img src="image/<?= $tampil['foto'] ?>" alt="" class="mx-auto max-w-full h-[800px] object-cover rounded-xl">
-        <p class="mt-4 text-lg font-medium text-gray-700"><?= $tampil['nama'] ?></p>
+    <div class="bg-white rounded-2xl p-6 text-center border border-gray-700/15">
+        <img src="images/<?= $tampil[
+            "foto"
+        ] ?>" alt="" class=" h-[800px] object-fit rounded-xl">
+        <p class="mt-4 text-lg font-medium text-gray-700"><?= $tampil[
+            "nama"
+        ] ?></p>
     </div>
 </section>
 

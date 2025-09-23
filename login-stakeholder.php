@@ -1,17 +1,42 @@
 <?php
-    session_start();
-    require "koneksi.php";
+session_start();
+require "koneksi.php";
 
-    function generateRandomString($length = 10){
-        $characters ='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i <$length; $i++){
-            $randomString .=$characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
+// handle login
+if (isset($_POST["loginbtn"])) {
+    $username = htmlspecialchars($_POST["username"]);
+    $password = htmlspecialchars($_POST["password"]);
+
+    $query = mysqli_query(
+        $con,
+        "SELECT * FROM stakeholder WHERE username='$username'"
+    );
+    $countdata = mysqli_num_rows($query);
+    $data = mysqli_fetch_array($query);
+
+    if ($countdata > 0 && password_verify($password, $data["password"])) {
+        $_SESSION["username"] = $data["username"];
+        $_SESSION["login"] = true;
+        header("Location: stakeholder.php");
+        exit();
+    } else {
+        $error = $countdata > 0 ? "Password salah" : "Akun tidak tersedia";
     }
+}
+
+function generateRandomString($length = 10)
+{
+    $characters =
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $charactersLength = strlen($characters);
+    $randomString = "";
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,28 +99,10 @@
         </div>
 
         <!-- alerts -->
-        <?php if(isset($_POST['loginbtn'])):
-            $username = htmlspecialchars($_POST['username']);
-            $password = htmlspecialchars($_POST['password']);
-            $query = mysqli_query($con, "SELECT * FROM stakeholder WHERE username='$username'");
-            $countdata = mysqli_num_rows($query);
-            $data = mysqli_fetch_array($query);
-
-            if($countdata>0):
-                if (password_verify($password, $data['password'])):
-                    $_SESSION['username'] = $data['username'];
-                    $_SESSION['login'] = true;
-                    header('location:stakeholder.php'); exit;
-                else: ?>
-                    <div class="mt-4 bg-yellow-500/20 border border-yellow-500 text-yellow-300 px-4 py-2 rounded-lg text-center">
-                        Password salah
-                    </div>
-                <?php endif; ?>
-            <?php else: ?>
-                <div class="mt-4 bg-yellow-500/20 border border-yellow-500 text-yellow-300 px-4 py-2 rounded-lg text-center">
-                    Akun tidak tersedia
-                </div>
-            <?php endif; ?>
+        <?php if (!empty($error)): ?>
+            <div class="mt-4 bg-yellow-500/20 border border-yellow-500 text-yellow-300 px   py-2 rounded-lg text-center">
+                <?= $error ?>
+            </div>
         <?php endif; ?>
 
         <!-- footer -->

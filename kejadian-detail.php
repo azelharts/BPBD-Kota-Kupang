@@ -1,579 +1,614 @@
-<?php 
-    require "session.php";
-    require "koneksi.php";
+<?php
+require "session.php";
+require "koneksi.php";
 
-   $id = $_GET['p'];
-    $query= mysqli_query($con, "SELECT * FROM kejadian WHERE id='$id'");
-    $data = mysqli_fetch_array($query);
+$id = $_GET["p"];
+$query = mysqli_query($con, "SELECT * FROM kejadian WHERE id='$id'");
+$data = mysqli_fetch_array($query);
 
-    function generateRandomString($length = 10){
-        $characters ='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i <$length; $i++){
-            $randomString .=$characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
+function generateRandomString($length = 10)
+{
+    $characters =
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $charactersLength = strlen($characters);
+    $randomString = "";
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
-
+    return $randomString;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        form div{
-            margin-bottom: 10px;
-        }
-    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kejadian Detail</title>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
-<body>
-    <?php require "navigation.php"; ?>
-    <div class="container mt-5">
-        <h2> Detail Kejadian dan Dampak Bencana</h2>
 
-        <div class="col-12 col-md-6">
-            <form action="" method="post" enctype="multipart/form-data">
-            <div>
-                    <label for="nama">1. Nama Kejadian</label>
-                    <Input type="text" id="nama" name="nama" value="<?php echo $data['nama'];?>"class="form-control" autocomplete="off" required>
+<body class="bg-gray-50 text-gray-800">
+<?php require "navbar-dashboard.php"; ?>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+    <!-- breadcrumb -->
+    <nav class="text-sm text-gray-500 mb-6">
+        <ol class="flex items-center space-x-2">
+            <li class="flex items-center gap-1">
+                <i data-lucide="home" class="w-4 h-4"></i>
+                <a href="dashboard.php" class="hover:text-amber-600">Dashboard</a>
+            </li>
+            <li>/</li>
+            <li><a href="list-kejadian.php" class="hover:text-amber-600">Data Kejadian & Dampak Bencana</a></li>
+            <li>/</li>
+            <li class="text-amber-600 font-medium">Detail #<?= $data[
+                "id"
+            ] ?></li>
+        </ol>
+    </nav>
+
+    <!-- heading -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <h1 class="text-2xl md:text-3xl font-extrabold">Detail Kejadian & Dampak Bencana</h1>
+        <span class="text-sm text-gray-500 mt-2 md:mt-0">Kode: #<?= $data[
+            "id"
+        ] ?></span>
+    </div>
+
+    <!-- photo -->
+    <?php if ($data["foto"]): ?>
+        <div class="mb-6">
+            <img src="images/<?= htmlspecialchars(
+                $data["foto"]
+            ) ?>" alt="Foto kejadian" class="w-full max-w-2xl rounded-2xl shadow-md">
+        </div>
+    <?php endif; ?>
+
+    <!-- form -->
+    <form action="" method="post" enctype="multipart/form-data" class="space-y-6">
+        <!-- B.1 -->
+        <div class="bg-white rounded-2xl shadow-md p-6 space-y-4">
+            <h2 class="text-lg font-bold mb-2">B.1 Data Kejadian Bencana</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-1">1. Nama Kejadian</label>
+                    <input type="text" name="nama" value="<?= htmlspecialchars(
+                        $data["nama"]
+                    ) ?>" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
                 <div>
-                    <label for="jenis">2. Jenis Kejadian</label>    
-                    <select name="jenis" id="jenis" class="form-control" required>
-                        <option value="<?php echo $data['jenis_id']; ?>"><?php echo $data 
-                        ['jenis_id'];?></option>
-                        <option value="alam">Bencana Alam</option>
-                        <option value="nonalam">Bencana NonAlam</option>
-                        <option value="sosial">Bencana Sosial</option>
+                    <label class="block text-sm font-semibold mb-1">2. Jenis Kejadian</label>
+                    <select name="jenis" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
+                        <option value="<?= htmlspecialchars(
+                            $data["jenis_id"]
+                        ) ?>"><?= htmlspecialchars(
+    $data["jenis_id"]
+) ?></option>
+                        <option value="Bencana Alam">Bencana Alam</option>
+                        <option value="Bencana NonAlam">Bencana NonAlam</option>
+                        <option value="Bencana Sosial">Bencana Sosial</option>
                     </select>
                 </div>
                 <div>
-                    <label for="tanggal">3. Tanggal Kejadian</label>
-                    <input type="date" value="<?php echo $data['tanggal'];?>"class="form-control" name="tanggal" required>
+                    <label class="block text-sm font-semibold mb-1">3. Tanggal Kejadian</label>
+                    <input type="date" name="tanggal" value="<?= $data[
+                        "tanggal"
+                    ] ?>" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
                 <div>
-                    <label for="waktu">4. Waktu Kejadian</label>
-                    <input type="time" value="<?php echo $data['waktu'];?>"class="form-control" name="waktu" required>
+                    <label class="block text-sm font-semibold mb-1">4. Waktu Kejadian</label>
+                    <input type="time" name="waktu" value="<?= $data[
+                        "waktu"
+                    ] ?>" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
+                </div>
+                <div class="col-span-full mt-4">
+                    <label class="block text-sm font-semibold">5. Lokasi</label>
                 </div>
                 <div>
-                    <label for="lokasi">5. Lokasi</label><br>
-                    Provinsi
-                    <select name="provinsi" id="provinsi" class="form-control" required>
-                        <option value="Nusa Tenggara Timur">Nusa Tenggara Timur</option>
+                    <label class="block text-sm font-semibold mb-1">Provinsi</label>
+                    <select name="provinsi" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
+                        <option>Nusa Tenggara Timur</option>
                     </select>
-                    Kabupaten/Kota
-                    <select name="kabkota" id="kabkota" class="form-control" required>
-                        <option value="Kota Kupang">Kota Kupang</option>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Kabupaten/Kota</label>
+                    <select name="kabkota" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
+                        <option>Kota Kupang</option>
                     </select>
-                    Kecamatan
-                    <select name="kecamatan" id="kecamatan" class="form-control" required>
-                        <option value="<?php echo $data['kecamatan']; ?>"><?php echo $data 
-                        ['kecamatan'];?></option>
-                        <option value="Alak">Kecamatan Alak</option>
-                        <option value="Kota Raja">Kecamatan Kota Raja</option>
-                        <option value="Kota Lama">Kecamatan Kota Lama</option>
-                        <option value="Oebobo">Kecamatan Oebobo</option>
-                        <option value="Kelapa Lima">Kecamatan Kelapa Lima</option>
-                        <option value="Maulafa">Kecamatan Maulafa</option>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Kecamatan</label>
+                    <select name="kecamatan" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
+                        <option value="<?= htmlspecialchars(
+                            $data["kecamatan"]
+                        ) ?>"><?= htmlspecialchars(
+    $data["kecamatan"]
+) ?></option>
+                        <option>Alak</option><option>Kota Raja</option><option>Kota Lama</option><option>Oebobo</option><option>Kelapa Lima</option><option>Maulafa</option>
                     </select>
-                    Kelurahan
-                    <input type="text" value="<?php echo $data['kelurahan'];?>"class="form-control" name="kelurahan" required>
-                    Letak Geografis
-                    <input type="text" value="<?php echo $data['geografis'];?>"class="form-control" name="geografis" required>
                 </div>
                 <div>
-                    <label for="sebab">6. Sebab Kejadian</label>
-                    <textarea name="sebab" class="form-control" id="sebab" cols="30" rows="5">
-                    <?php echo $data['sebab'];?></textarea>
+                    <label class="block text-sm font-semibold mb-1">Kelurahan</label>
+                    <input type="text" name="kelurahan" value="<?= htmlspecialchars(
+                        $data["kelurahan"]
+                    ) ?>" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold mb-1">Letak Geografis</label>
+                    <input type="text" name="geografis" value="<?= htmlspecialchars(
+                        $data["geografis"]
+                    ) ?>" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
+                </div>
+            </div>
+
+            <!-- Textareas -->
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-1">6. Sebab Kejadian</label>
+                    <textarea name="sebab" rows="3" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400"><?= htmlspecialchars(
+                        $data["sebab"]
+                    ) ?></textarea>
                 </div>
                 <div>
-                    <label for="kronologis">7. Kronologis Kejadian</label>
-                    <textarea name="kronologis" class="form-control" id="kronologis" cols="30" rows="5">
-                    <?php echo $data['kronologis'];?> </textarea>
+                    <label class="block text-sm font-semibold mb-1">7. Kronologis Kejadian</label>
+                    <textarea name="kronologis" rows="3" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400"><?= htmlspecialchars(
+                        $data["kronologis"]
+                    ) ?></textarea>
                 </div>
                 <div>
-                    <label for="deskripsi">8. Deskripsi Kejadian</label>
-                    <textarea name="deskripsi" class="form-control" id="deskripsi" cols="30" rows="5">
-                    <?php echo $data['deskripsi'];?></textarea>
+                    <label class="block text-sm font-semibold mb-1">8. Deskripsi Kejadian</label>
+                    <textarea name="deskripsi" rows="3" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400"><?= htmlspecialchars(
+                        $data["deskripsi"]
+                    ) ?></textarea>
                 </div>
                 <div>
-                    <label for="sumber">9. Sumber Informasi</label>
-                    <input type="text" value="<?php echo $data['sumber'];?>"class="form-control" name="sumber">
+                    <label class="block text-sm font-semibold mb-1">9. Sumber Informasi</label>
+                    <input type="text" name="sumber" value="<?= htmlspecialchars(
+                        $data["sumber"]
+                    ) ?>" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
                 <div>
-                    <label for="kondisi">10. Kondisi mutakhir</label>
-                    <input type="text" value="<?php echo $data['kondisi'];?>"class="form-control" name="kondisi">
+                    <label class="block text-sm font-semibold mb-1">10. Kondisi Mutakhir</label>
+                    <input type="text" name="kondisi" value="<?= htmlspecialchars(
+                        $data["kondisi"]
+                    ) ?>" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
                 <div>
-                    <label for="status_darurat">11. Status Darurat</label>
-                    <input type="text" value="<?php echo $data['status_darurat'];?>"class="form-control" name="status_darurat" required>
+                    <label class="block text-sm font-semibold mb-1">11. Status Darurat</label>
+                    <input type="text" name="status_darurat" value="<?= htmlspecialchars(
+                        $data["status_darurat"]
+                    ) ?>" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
                 <div>
-                    <label for="upaya">12. Upaya</label>
-                    <input type="text" value="<?php echo $data['upaya'];?>"class="form-control" name="upaya" required>
+                    <label class="block text-sm font-semibold mb-1">12. Upaya</label>
+                    <input type="text" name="upaya" value="<?= htmlspecialchars(
+                        $data["upaya"]
+                    ) ?>" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
                 <div>
-                    <label for="sebaran">13. Sebaran Dampak</label>
-                    <input type="text" value="<?php echo $data['sebaran'];?>"class="form-control" name="sebaran" required>
+                    <label class="block text-sm font-semibold mb-1">13. Sebaran Dampak</label>
+                    <input type="text" name="sebaran" value="<?= htmlspecialchars(
+                        $data["sebaran"]
+                    ) ?>" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
                 <div>
-                    <label for="CurrentFoto">14. Foto Sekarang</label>
-                    <img src="image/<?php echo $data['foto']?>" alt="" width="300px"> 
+                    <label class="block text-sm font-semibold mb-1">14. Kode Identitas Bencana (KIB)</label>
+                    <input type="text" name="kib" value="<?= htmlspecialchars(
+                        $data["kib"]
+                    ) ?>" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
                 <div>
-                    <label for="foto">Ganti Foto</label>
-                    <input type="file" class="form-control" name="foto" id="foto">
+                    <label class="block text-sm font-semibold mb-1">15. Ganti Foto</label>
+                    <input type="file" name="foto" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
+                </div>
+            </div>
+        </div>
+
+        <!-- B.2 -->
+        <div class="bg-white rounded-2xl shadow-md p-6">
+            <h2 class="text-lg font-bold mb-4">B.2 Data Kebutuhan Bencana</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-1">1. Dana (Juta)</label>
+                    <input type="text" name="dana" value="<?= htmlspecialchars(
+                        $data["dana"]
+                    ) ?>" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
                 <div>
-                    <label for="kib" class="fw-semibold">15. Kode Identitas Bencana</label>
-                    <input type="text" value="<?php echo $data['kib'];?>" class="form-control" name="kib" id="kib">
+                    <label class="block text-sm font-semibold mb-1">2. Sumber Daya Manusia</label>
+                    <input type="text" name="sdm" value="<?= htmlspecialchars(
+                        $data["sdm"]
+                    ) ?>" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
                 <div>
-                    <h3 class="mt-5">B.2 Data Kebutuhan Bencana </h3>
+                    <label class="block text-sm font-semibold mb-1">3. Sarana Prasarana</label>
+                    <input type="text" name="sarpras" value="<?= htmlspecialchars(
+                        $data["sarpras"]
+                    ) ?>" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
                 <div>
-                    <label for="dana" class="mt-3 fw-semibold">1. Dana</label>
-                    <input type="text" value="<?php echo $data['dana'];?>" class="form-control" name="dana">
+                    <label class="block text-sm font-semibold mb-1">4. Logistik</label>
+                    <input type="text" name="logistik" value="<?= htmlspecialchars(
+                        $data["logistik"]
+                    ) ?>" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
-                <div>
-                    <label for="sdm" class="fw-semibold">2. Sumber Daya Manusia</label>
-                    <input type="text" value="<?php echo $data['sdm'];?>" class="form-control" name="sdm">
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-semibold mb-1">5. Peralatan</label>
+                    <input type="text" name="alat" value="<?= htmlspecialchars(
+                        $data["alat"]
+                    ) ?>" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
                 </div>
-                <div>
-                    <label for="sarpras" class="fw-semibold">3. Sarana Prasarana</label>
-                    <input type="text" value="<?php echo $data['sarpras'];?>" class="form-control" name="sarpras">
-                </div>
-                <div>
-                    <label for="logistik" class="fw-semibold">4. Logistik</label>
-                    <input type="text" value="<?php echo $data['logistik'];?>"class="form-control" name="logistik">
-                </div>
-                <div>
-                    <label for="alat" class="fw-semibold">5. Peralatan</label>
-                    <input type="text" value="<?php echo $data['alat'];?>" class="form-control" name="alat">
-                </div>
-                <div>
-                    <h3 class="mt-5">B.3 Data Akibat Terhadap Manusia </h3>
-                </div>
-                <div class="table-responsive mt-5">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th rowspan="2" class="text-center">Korban </th>
-                            <th colspan="2" class="text-center">Anak-anak</th>
-                            <th colspan="2" class="text-center">Dewasa</th>
-                            <th colspan="2" class="text-center">Lansia</th>
-                            <th colspan="2" class="text-center">Total</th>
-                        </tr>
-                        <tr>
-                            <td class="text-center">L</td>
-                            <td class="text-center">P</td>
-                            <td class="text-center">L</td>
-                            <td class="text-center">P</td>
-                            <td class="text-center">L</td>
-                            <td class="text-center">P</td>
-                            <td class="text-center">L</td>
-                            <td class="text-center">P</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="fw-semibold">Meninggal</td>
-                            <td><input type="text" value="<?php echo $data['aml'];?>" name="aml" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['amp'];?>" name="amp" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['dwsml'];?>" name="dwsml" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['dwsmp'];?>" name="dwsmp" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['lnml'];?>" name="lnml" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['lnmp'];?>" name="lnmp" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['tml'];?>" name="tml" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['tmp'];?>" name="tmp" size="8"></td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Hilang</td>
-                            <td><input type="text" value="<?php echo $data['ahl'];?>" name="ahl" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['ahp'];?>" name="ahp" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['dwshl'];?>" name="dwshl" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['dwshp'];?>" name="dwshp" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['lnhl'];?>" name="lnhl" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['lnhp'];?>" name="lnhp" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['thl'];?>" name="thl" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['thp'];?>" name="thp" size="8"></td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Luka/sakit</td>
-                            <td><input type="text" value="<?php echo $data['alkl'];?>" name="alkl" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['alkp'];?>" name="alkp" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['dwsll'];?>" name="dwsll" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['dwslp'];?>" name="dwslp" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['lnll'];?>" name="lnll" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['lnlp'];?>" name="lnlp" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['tll'];?>" name="tll" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['tlp'];?>" name="tlp" size="8"></td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Terdampak</td>
-                            <td><input type="text" value="<?php echo $data['atl'];?>" name="atl" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['atp'];?>" name="atp" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['dwstl'];?>" name="dwstl" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['dwstp'];?>" name="dwstp" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['lntl'];?>" name="lntl" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['lntp'];?>" name="lntp" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['ttl'];?>" name="ttl" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['ttp'];?>" name="ttp" size="8"></td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Mengungsi</td>
-                            <td><input type="text" value="<?php echo $data['aul'];?>" name="aul" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['aup'];?>" name="aup" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['dwsul'];?>" name="dwsul" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['dwsup'];?>" name="dwsup" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['lnul'];?>"name="lnul" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['lnup'];?>" name="lnup" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['tul'];?>" name="tul" size="8"></td>
-                            <td><input type="text" value="<?php echo $data['tup'];?>" name="tup" size="8"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                </div>
-                <div>
-                    <h3 class="mt-5">B.4 Data Kerusakan dan Kerugian Sosial Ekonomi </h3>
-                </div>
-                <div class="table-responsive mt-5">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Kerusakan</th>
-                            <th>Ha</th>
-                            <th>Taksiran Kerugian</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="fw-semibold">Sawah</td>
-                            <td><input type="text" value="<?php echo $data['sawah'];?>" name="sawah" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['txsawah'];?>" name="txsawah" size="20"> Juta</td>
-                            
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Lahan</td>
-                            <td><input type="text" value="<?php echo $data['lahan'];?>" name="lahan" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['txlahan'];?>" name="txlahan" size="20"> Juta</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Kebun</td>
-                            <td><input type="text" value="<?php echo $data['kebun'];?>" name="kebun" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['txkebun'];?>" name="txkebun" size="20"> Juta</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Hutan</td>
-                            <td><input type="text" value="<?php echo $data['hutan'];?>" name="hutan" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['txhutan'];?>" name="txhutan" size="20"> Juta</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Kolam</td>
-                            <td><input type="text" value="<?php echo $data['kolam'];?>" name="kolam" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['txkolam'];?>" name="txkolam" size="20"> Juta</td>
-                        </tr>
+            </div>
+        </div>
+
+        <!-- B.3 -->
+        <div class="bg-white rounded-2xl shadow-md p-6 overflow-x-auto">
+            <h2 class="text-lg font-bold mb-4">B.3 Data Akibat Terhadap Manusia</h2>
+            <table class="w-full text-sm border border-gray-200 rounded-lg">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th rowspan="2" class="p-2 border">Korban</th>
+                        <th colspan="2" class="p-2 border">Anak-anak</th>
+                        <th colspan="2" class="p-2 border">Dewasa</th>
+                        <th colspan="2" class="p-2 border">Lansia</th>
+                        <th colspan="2" class="p-2 border">Total</th>
+                    </tr>
+                    <tr>
+                        <th class="p-2 border">L</th><th class="p-2 border">P</th>
+                        <th class="p-2 border">L</th><th class="p-2 border">P</th>
+                        <th class="p-2 border">L</th><th class="p-2 border">P</th>
+                        <th class="p-2 border">L</th><th class="p-2 border">P</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $korban = [
+                        "Meninggal",
+                        "Hilang",
+                        "Luka/sakit",
+                        "Terdampak",
+                        "Mengungsi",
+                    ];
+                    $fields = [
+                        "aml",
+                        "amp",
+                        "dwsml",
+                        "dwsmp",
+                        "lnml",
+                        "lnmp",
+                        "tml",
+                        "tmp",
+                    ];
+                    foreach ($korban as $k): ?>
+                    <tr>
+                        <td class="p-2 border font-semibold"><?= $k ?></td>
+                        <?php foreach ($fields as $f): ?>
+                            <td class="p-2 border"><input type="text" name="<?= $f ?>" value="<?= htmlspecialchars(
+    $data[$f]
+) ?>" class="w-full px-2 py-1 border rounded"></td>
+                        <?php endforeach; ?>
+                    </tr>
+                    <?php endforeach;
+                    ?>
+                </tbody>
             </table>
-                <div class="table-responsive mt-5">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                        <th>Kerusakan</th>
-                            <th>RB</th>
-                            <th>RS</th>
-                            <th>RR</th>
-                            <th>Terendam</th>
-                            <th>Taksiran Kerugian</th>
-                        </tr>
-                    </thead>
-                        <tr>
-                            <td class="fw-semibold">Kios/Toko</td>
-                            <td><input type="text" value="<?php echo $data['kb'];?>" name="kb" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['ks'];?>" name="ks" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['kr'];?>" name="kr" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['ktrd'];?>" name="ktrd" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['txkios'];?>" name="txkios" size="20"> Juta</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Pabrik</td>
-                            <td><input type="text" value="<?php echo $data['pb'];?>" name="pb" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['ps'];?>" name="ps" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['pr'];?>" name="pr" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['ptrd'];?>" name="ptrd" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['txpabrik'];?>" name="txpabrik" size="20"> Juta</td>
-                        </tr>
-                    </tbody>
-                </table>
-                </div>
-                <div>
-                    <h3 class="mt-5">B.5 Data kerusakan dan kerugian prasarana dan sarana vital </h3>
-                </div>
-                <div class="table-responsive mt-5">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Kerusakan</th>
-                            <th>Taksiran Kerugian</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="fw-semibold">Jaringan Air Bersih/Minum</td>
-                            <td><input type="text" value="<?php echo $data['txair'];?>" name="txair" size="20"> Juta</td>
-                            
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Jaringan lampu dan lampu penerangan</td>
-                            <td><input type="text" value="<?php echo $data['txlampu'];?>" name="txlampu" size="20"> Juta</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Jaringan telekomunikasi</td>
-                            <td><input type="text" value="<?php echo $data['txkom'];?>" name="txkom" size="20"> Juta</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Jaringan irigasi</td>
-                            <td><input type="text" value="<?php echo $data['txiri'];?>" name="txiri" size="20"> Juta</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Jalan (Km)</td>
-                            <td><input type="text" value="<?php echo $data['txjln'];?>" name="txjln" size="20"> Juta</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">jaringan Transportasi</td>
-                            <td><input type="text" value="<?php echo $data['txtrans'];?>" name="txtrans" size="20"> Juta</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Jaringan Pengisian Bahan Bakar Umum</td>
-                            <td><input type="text" value="<?php echo $data['txbbm'];?>" name="txbbm" size="20"> Juta</td>
-                        </tr>
+        </div>
+
+        <!-- B.4 -->
+        <div class="bg-white rounded-2xl shadow-md p-6 overflow-x-auto">
+            <h2 class="text-lg font-bold mb-4">B.4 Data Kerusakan dan Kerugian Sosial Ekonomi</h2>
+            <table class="w-full text-sm border border-gray-200 rounded-lg">
+                <thead class="bg-gray-100"><tr><th class="p-2 border">Kerusakan</th><th class="p-2 border">Ha</th><th class="p-2 border">Taksiran Kerugian</th></tr></thead>
+                <tbody>
+                    <?php
+                    $arr = [
+                        "Sawah" => "sawah",
+                        "Lahan" => "lahan",
+                        "Kebun" => "kebun",
+                        "Hutan" => "hutan",
+                        "Kolam" => "kolam",
+                    ];
+                    foreach ($arr as $label => $name): ?>
+                    <tr>
+                        <td class="p-2 border font-semibold"><?= $label ?></td>
+                        <td class="p-2 border"><input type="text" name="<?= $name ?>" value="<?= htmlspecialchars(
+    $data[$name]
+) ?>" class="w-full px-2 py-1 border rounded"></td>
+                        <td class="p-2 border"><input type="text" name="tx<?= $name ?>" value="<?= htmlspecialchars(
+    $data["tx" . $name]
+) ?>" class="w-full px-2 py-1 border rounded"> Juta</td>
+                    </tr>
+                    <?php endforeach;
+                    ?>
+                </tbody>
             </table>
-            </div>
-            <div class="table-responsive mt-5">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                        <th>Kerusakan</th>
-                            <th>RB</th>
-                            <th>RS</th>
-                            <th>RR</th>
-                            <th>Terendam</th>
-                            <th>Taksiran Kerugian</th>
-                        </tr>
-                    </thead>
-                        <tr>
-                            <td class="fw-semibold">Jembatan</td>
-                            <td><input type="text" value="<?php echo $data['jb'];?>" name="jb" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['js'];?>" name="js" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['jr'];?>" name="jr" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['jtrd'];?>" name="jtrd" size="10"></td>
-                            <td><input type="text" value="<?php echo $data['txjembatan'];?>" name="txjembatan" size="20"> Juta</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-                <div>
-                    <h3 class="mt-5">B.6  Data kerusakan dan kerugian rumah </h3>
-                </div>
-                <div class="table-responsive mt-5">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                        <th>Kerusakan</th>
-                            <th>RB</th>
-                            <th>RS</th>
-                            <th>RR</th>
-                            <th>Terendam</th>
-                            <th>Taksiran Kerugian</th>
-                        </tr>
-                    </thead>
-                        <tr>
-                            <td class="fw-semibold">Kerusakan dan kerugian rumah</td>
-                            <td><input type="text" value="<?php echo $data['rmhb'];?>" name="rmhb" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['rmhs'];?>" name="rmhs" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['rmhr'];?>" name="rmhr" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['rmhtrd'];?>" name="rmhtrd" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['txrmh'];?>" name="txrmh" size="20"> Juta</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            </div>
-                <div>
-                    <h3 class="mt-5">B.7  Data kerusakan dan kerugian pelayanan dasar </h3>
-                </div>
-                <div class="table-responsive mt-5">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                        <th>Kerusakan</th>
-                            <th>RB</th>
-                            <th>RS</th>
-                            <th>RR</th>
-                            <th>Terendam</th>
-                            <th>Taksiran Kerugian</th>
-                        </tr>
-                    </thead>
-                        <tr>
-                            <td class="fw-semibold">Satuan Pendidikan</td>
-                            <td><input type="text" value="<?php echo $data['skob'];?>" name="skob" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['skos'];?>" name="skos" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['skor'];?>" name="skor" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['skotrd'];?>" name="skotrd" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['txsko'];?>" name="txsko" size="20"> Juta</td>
+
+            <table class="w-full text-sm border border-gray-200 rounded-lg mt-12">
+                <thead class="bg-gray-100">
+                    <tr><th class="p-2 border">Kerusakan</th><th class="p-2 border">RB</th><th class="p-2 border">RS</th><th class="p-2 border">RR</th><th class="p-2 border">Terendam</th><th class="p-2 border">Taksiran Kerugian</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                            <td class="p-2 border font-semibold">Kios/Toko</td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['kb'];?>" name="kb" size="10"></td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['ks'];?>" name="ks" size="10"></td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['kr'];?>" name="kr" size="10"></td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['ktrd'];?>" name="ktrd" size="10"></td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['txkios'];?>" name="txkios" size="20"> Juta</td>
                         </tr>
                         <tr>
-                            <td class="fw-semibold">Rumah Ibadat</td>
-                            <td><input type="text" value="<?php echo $data['tmp'];?>" name="rib" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['tmp'];?>" name="ris" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['tmp'];?>" name="rir" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['tmp'];?>" name="ritrd" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['tmp'];?>" name="txri" size="20"> Juta</td>
+                            <td class="p-2 border font-semibold">Pabrik</td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['pb'];?>" name="pb" size="10"></td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['ps'];?>" name="ps" size="10"></td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['pr'];?>" name="pr" size="10"></td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['ptrd'];?>" name="ptrd" size="10"></td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['txpabrik'];?>" name="txpabrik" size="20"> Juta</td>
                         </tr>
-                        <tr>
-                            <td class="fw-semibold">Fasilitas Pelayanan Kesehatan</td>
-                            <td><input type="text" value="<?php echo $data['faskesb'];?>" name="faskesb" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['faskess'];?>" name="faskess" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['faskesr'];?>" name="faskesr" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['faskestrd'];?>" name="faskestrd" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['txfaskes'];?>" name="txfaskes" size="20"> Juta</td>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- B.5 -->
+        <div class="bg-white rounded-2xl shadow-md p-6 overflow-x-auto">
+            <h2 class="text-lg font-bold mb-4">B.5 Data Kerusakan dan Kerugian Prasarana & Sarana Vital</h2>
+            <table class="w-full text-sm border border-gray-200 rounded-lg">
+                <thead class="bg-gray-100"><tr><th class="p-2 border">Kerusakan</th><th class="p-2 border">Taksiran Kerugian</th></tr></thead>
+                <tbody>
+                    <?php
+                    $arr = [
+                        "Jaringan Air Bersih/Minum" => "txair",
+                        "Jaringan lampu dan lampu penerangan" => "txlampu",
+                        "Jaringan telekomunikasi" => "txkom",
+                        "Jaringan irigasi" => "txiri",
+                        "Jalan (Km)" => "txjln",
+                        "jaringan Transportasi" => "txtrans",
+                        "Jaringan Pengisian Bahan Bakar Umum" => "txbbm",
+                    ];
+                    foreach ($arr as $label => $name): ?>
+                    <tr>
+                        <td class="p-2 border font-semibold"><?= $label ?></td>
+                        <td class="p-2 border"><input type="text" name="<?= $name ?>" value="<?= htmlspecialchars(
+    $data[$name]
+) ?>" class="w-full px-2 py-1 border rounded"> Juta</td>
+                    </tr>
+                    <?php endforeach;
+                    ?>
+                </tbody>
+            </table>
+
+            <table class="w-full text-sm border border-gray-200 rounded-lg mt-12">
+                <thead class="bg-gray-100">
+                    <tr><th class="p-2 border">Kerusakan</th><th class="p-2 border">RB (meter)</th><th class="p-2 border">RS (meter)</th><th class="p-2 border">RR (meter)</th><th class="p-2 border">Terendam (meter)</th><th class="p-2 border">Taksiran Kerugian</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                            <td class="p-2 border font-semibold">Jembatan</td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['jb'];?>" name="jb" size="10"></td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['js'];?>" name="js" size="10"></td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['jr'];?>" name="jr" size="10"></td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['jtrd'];?>" name="jtrd" size="10"></td>
+                            <td class="p-2 border"><input class="w-full px-2 py-1 border rounded" type="text" value="<?php echo $data['txjembatan'];?>" name="txjembatan" size="20"> Juta</td>
                         </tr>
-                        <tr>
-                            <td class="fw-semibold">Kantor</td>
-                            <td><input type="text" value="<?php echo $data['ktrb'];?>" name="ktrb" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['ktrs'];?>" name="ktrs" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['ktrr'];?>" name="ktrr" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['ktrtrd'];?>" name="ktrtrd" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['txktr'];?>" name="txktr" size="20"> Juta</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-semibold">Pasar</td>
-                            <td><input type="text" value="<?php echo $data['psrb'];?>" name="psrb" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['psrs'];?>" name="psrs" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['psrr'];?>" name="psrr" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['psrtrd'];?>" name="psrtrd" size="5"></td>
-                            <td><input type="text" value="<?php echo $data['txpsr'];?>" name="txpsr" size="20"> Juta</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div>
-                    <h3 class="mt-5">B.8  Data Aset dan layanan penanganan kedaruratan</h3>
-                    <div>
-                    <label for="layanan" class="fw-semibold">Barang yang digunakan untuk melayani penanganan darurat bencana:</label>
-                    <input type="text" value="<?php echo $data['layanan'];?>" class="form-control" name="layanan" id="layanan">
-                </div>
-            </div>
-                <div>
-                    <button type="submit" name="simpan" class="btn btn-success mt-3">Simpan</button>
-                    <button type="submit" name="kembali" class="btn btn-primary mt-3">Kembali</button>
-                    <button type="submit" name="hapus" class="btn btn-danger mt-3 me-5">Hapus</button>
-                                   
-                </div>
-            </form>
-            <?php
-                if(isset($_POST['simpan'])){
-                    $nama= htmlspecialchars($_POST['nama']);
-                    $jenis= htmlspecialchars($_POST['jenis']);
-                    $tanggal= htmlspecialchars($_POST['tanggal']);
-                    $waktu= htmlspecialchars($_POST['waktu']);
-                    $provinsi= htmlspecialchars($_POST['provinsi']);
-                    $kabkota= htmlspecialchars($_POST['kabkota']);
-                    $kecamatan= htmlspecialchars($_POST['kecamatan']);
-                    $kelurahan= htmlspecialchars($_POST['kelurahan']);
-                    $geografis= htmlspecialchars($_POST['geografis']);
-                    $sebab= htmlspecialchars($_POST['sebab']);
-                    $kronologis= htmlspecialchars($_POST['kronologis']);
-                    $deskripsi= htmlspecialchars($_POST['deskripsi']);
-                    $sumber= htmlspecialchars($_POST['sumber']);
-                    $kondisi= htmlspecialchars($_POST['kondisi']);
-                    $status_darurat= htmlspecialchars($_POST['status_darurat']);
-                    $upaya= htmlspecialchars($_POST['upaya']);
-                    $sebaran= htmlspecialchars($_POST['sebaran']);
-                   
-                    $target_dir = "image/";
-                    $nama_file = basename($_FILES["foto"]["name"]);
-                    $target_file = $target_dir . $nama_file;
-                    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-                    $image_size = $_FILES["foto"]["size"];
-                    $random_name = generateRandomString (20);
-                    $new_name = $random_name . "." . $imageFileType;
-                    
-                    if($nama=='' || $jenis=='' || $tanggal=='' || $waktu=='' || $kelurahan=='' || $status_darurat==''){
-            ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- B.6 -->
+        <div class="bg-white rounded-2xl shadow-md p-6 overflow-x-auto">
+            <h2 class="text-lg font-bold mb-4">B.6 Data Kerusakan dan Kerugian Rumah</h2>
+            <table class="w-full text-sm border border-gray-200 rounded-lg">
+                <thead class="bg-gray-100"><tr><th class="p-2 border">Kerusakan</th><th class="p-2 border">RB</th><th class="p-2 border">RS</th><th class="p-2 border">RR</th><th class="p-2 border">Terendam</th><th class="p-2 border">Taksiran Kerugian</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td class="p-2 border font-semibold">Kerusakan dan kerugian rumah</td>
+                        <?php foreach (
+                            ["rmhb", "rmhs", "rmhr", "rmhtrd"]
+                            as $n
+                        ): ?>
+                            <td class="p-2 border"><input type="text" name="<?= $n ?>" value="<?= htmlspecialchars(
+    $data[$n]
+) ?>" class="w-full px-2 py-1 border rounded"></td>
+                        <?php endforeach; ?>
+                        <td class="p-2 border"><input type="text" name="txrmh" value="<?= htmlspecialchars(
+                            $data["txrmh"]
+                        ) ?>" class="w-full px-2 py-1 border rounded"> Juta</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- B.7 -->
+        <div class="bg-white rounded-2xl shadow-md p-6 overflow-x-auto">
+            <h2 class="text-lg font-bold mb-4">B.7 Data Kerusakan dan Kerugian Pelayanan Dasar</h2>
+            <table class="w-full text-sm border border-gray-200 rounded-lg">
+                <thead class="bg-gray-100"><tr><th class="p-2 border">Kerusakan</th><th class="p-2 border">RB</th><th class="p-2 border">RS</th><th class="p-2 border">RR</th><th class="p-2 border">Terendam</th><th class="p-2 border">Taksiran Kerugian</th></tr></thead>
+                <tbody>
+                    <?php
+                    $arr = [
+                        "Satuan Pendidikan" => "sko",
+                        "Rumah Ibadat" => "ri",
+                        "Fasilitas Pelayanan Kesehatan" => "faskes",
+                        "Kantor" => "ktr",
+                        "Pasar" => "psr",
+                    ];
+                    foreach ($arr as $label => $pre): ?>
+                    <tr>
+                        <td class="p-2 border font-semibold"><?= $label ?></td>
+                        <?php foreach (
+                            [$pre . "b", $pre . "s", $pre . "r", $pre . "trd"]
+                            as $n
+                        ): ?>
+                            <td class="p-2 border"><input type="text" name="<?= $n ?>" value="<?= htmlspecialchars(
+    $data[$n]
+) ?>" class="w-full px-2 py-1 border rounded"></td>
+                        <?php endforeach; ?>
+                        <td class="p-2 border"><input type="text" name="tx<?= $pre ?>" value="<?= htmlspecialchars(
+    $data["tx" . $pre]
+) ?>" class="w-full px-2 py-1 border rounded"> Juta</td>
+                    </tr>
+                    <?php endforeach;
+                    ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- B.8 -->
+        <div class="bg-white rounded-2xl shadow-md p-6">
+            <h2 class="text-lg font-bold mb-4">B.8 Data Aset dan Layanan Penanganan Kedaruratan</h2>
+            <label class="block text-sm font-semibold mb-1">Barang yang digunakan untuk melayani penanganan darurat bencana</label>
+            <textarea name="layanan" rows="3" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400"><?= htmlspecialchars(
+                $data["layanan"]
+            ) ?></textarea>
+        </div>
+
+        <!-- actions -->
+        <div class="flex flex-wrap gap-4">
+            <button type="submit" name="simpan" class="inline-flex items-center gap-2 px-6 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition">
+                <i data-lucide="save" class="w-4 h-4"></i>Simpan
+            </button>
+            <button type="submit" name="kembali" class="inline-flex items-center gap-2 px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold transition">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>Kembali
+            </button>
+            <button type="submit" name="hapus" onclick="return confirm('Hapus data ini?')" class="inline-flex items-center gap-2 px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>Hapus
+            </button>
+        </div>
+
+        <!-- alerts -->
+        <?php if (isset($_POST["simpan"])): ?>
+            <?php if (
+                empty($_POST["nama"]) ||
+                empty($_POST["jenis"]) ||
+                empty($_POST["tanggal"]) ||
+                empty($_POST["waktu"]) ||
+                empty($_POST["kelurahan"]) ||
+                empty($_POST["status_darurat"])
+            ): ?>
+                <div class="mt-4 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-2 rounded-lg">Nama, Jenis, Tanggal, Waktu, Lokasi, dan status darurat wajib diisi</div>
+            <?php else: ?>
+                <div class="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded-lg">Kejadian berhasil diupdate</div>
+                <meta http-equiv="refresh" content="2; url=list-kejadian.php" />
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if (isset($_POST["hapus"])): ?>
+            <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-lg">Kejadian berhasil dihapus</div>
+            <meta http-equiv="refresh" content="2; url=list-kejadian.php" />
+        <?php endif; ?>
+    </form>
+
+    <?php
+    if (isset($_POST["simpan"])) {
+        $nama = htmlspecialchars($_POST["nama"]);
+        $jenis = htmlspecialchars($_POST["jenis"]);
+        $tanggal = htmlspecialchars($_POST["tanggal"]);
+        $waktu = htmlspecialchars($_POST["waktu"]);
+        $provinsi = htmlspecialchars($_POST["provinsi"]);
+        $kabkota = htmlspecialchars($_POST["kabkota"]);
+        $kecamatan = htmlspecialchars($_POST["kecamatan"]);
+        $kelurahan = htmlspecialchars($_POST["kelurahan"]);
+        $geografis = htmlspecialchars($_POST["geografis"]);
+        $sebab = htmlspecialchars($_POST["sebab"]);
+        $kronologis = htmlspecialchars($_POST["kronologis"]);
+        $deskripsi = htmlspecialchars($_POST["deskripsi"]);
+        $sumber = htmlspecialchars($_POST["sumber"]);
+        $kondisi = htmlspecialchars($_POST["kondisi"]);
+        $status_darurat = htmlspecialchars($_POST["status_darurat"]);
+        $upaya = htmlspecialchars($_POST["upaya"]);
+        $sebaran = htmlspecialchars($_POST["sebaran"]);
+
+        $target_dir = "images/";
+        $nama_file = basename($_FILES["foto"]["name"]);
+        $target_file = $target_dir . $nama_file;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $image_size = $_FILES["foto"]["size"];
+        $random_name = generateRandomString(20);
+        $new_name = $random_name . "." . $imageFileType;
+
+        if (
+            $nama == "" ||
+            $jenis == "" ||
+            $tanggal == "" ||
+            $waktu == "" ||
+            $kelurahan == "" ||
+            $status_darurat == ""
+        ) { ?>
                         <div class="alert alert-warning mt-3" role="alert">
                             Nama, Jenis, Tanggal, Waktu, Lokasi, dan status darurat wajib diisi
                         </div>
-            <?php
-                }
-                else{
-                    $queryUpdate = mysqli_query ($con, "UPDATE kejadian SET jenis_id='$jenis',
+            <?php } else {$queryUpdate = mysqli_query(
+                $con,
+                "UPDATE kejadian SET jenis_id='$jenis',
                     nama='$nama', tanggal='$tanggal', waktu='$waktu', provinsi='$provinsi', kabkota='$kabkota',
                     kecamatan='$kecamatan', kelurahan='$kelurahan', geografis='$geografis', sebab='$sebab',
                     kronologis='$kronologis', deskripsi='$deskripsi', sumber='$sumber', kondisi='$kondisi',
-                    status_darurat='$status_darurat', upaya='$upaya', sebaran='$sebaran' WHERE id=$id");
+                    status_darurat='$status_darurat', upaya='$upaya', sebaran='$sebaran' WHERE id=$id"
+            );
 
-                    if($nama_file!=''){
-                        if($image_size > 5000000){
-            ?>
+            if ($nama_file != "") {
+                if ($image_size > 5000000) { ?>
                         <div class="alert alert-warning mt-3" role="alert">
                          File tidak boleh lebih dari 5 Mb
                         </div>
-            <?php
-                        }
-                        else{
-                        if($imageFileType!='jpg' && $imageFileType !='png' && $imageFileType !='gif'){
-            ?>
+            <?php } else {if (
+                        $imageFileType != "jpg" &&
+                        $imageFileType != "png" &&
+                        $imageFileType != "gif"
+                    ) { ?>
                             <div class="alert alert-warning mt-3" role="alert">
                                 File foto Wajib bertype jpg atau png atau gif
                             </div>
-            <?php
-                        }
-                        else{
-                            move_uploaded_file($_FILES['foto']['tmp_name'], $target_dir . $new_name);
-                            $queryUpdate = mysqli_query($con, "UPDATE kejadian SET foto='$new_name' WHERE id='$id'");
-                            
-                            if($queryUpdate){
-            ?>
+            <?php } else {move_uploaded_file(
+                            $_FILES["foto"]["tmp_name"],
+                            $target_dir . $new_name
+                        );
+                        $queryUpdate = mysqli_query(
+                            $con,
+                            "UPDATE kejadian SET foto='$new_name' WHERE id='$id'"
+                        );
+
+                        if ($queryUpdate) { ?>
                                 <div class="alert alert-primary mt-3" role="alert">
                                     Kejadian berhasil diupdate
                                 </div>
 
-                                <meta http-equiv="refresh" content="2; url=kejadian.php" />
-            <?php
-                            }
-                            else{
-                                echo mysqli_error ($con);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-                if(isset ($_POST['hapus'])){
-                    $queryHapus = mysqli_query($con, "DELETE FROM kejadian WHERE id='$id'");
+                                <meta http-equiv="refresh" content="2; url=list-kejadian.php" />
+            <?php } else {echo mysqli_error($con);}}}
+            }}
+    }
+    if (isset($_POST["hapus"])) {
+    // Ambil nama file foto dulu
+    $result = mysqli_query($con, "SELECT foto FROM kejadian WHERE id='$id'");
+    $row = mysqli_fetch_assoc($result);
+    $foto = $row['foto'] ?? '';
 
-                    if($queryHapus){
-            ?>
-                                <div class="alert alert-primary mt-3" role="alert">
-                                    Kejadian berhasil dihapus
-                                </div>
-                                <meta http-equiv="refresh" content="2; url=kejadian.php" />
-            <?php
-                    }
-                }
-                
-                if(isset ($_POST['kembali'])){
-            ?>
-                <meta http-equiv="refresh" content="0; url=kejadian.php" />
-            <?php
-                    }
-        ?>
+    // Hapus file foto di folder jika ada
+    if ($foto && file_exists("images/" . $foto)) {
+        unlink("images/" . $foto);
+    }
+
+    // Hapus data dari database
+    $queryHapus = mysqli_query($con, "DELETE FROM kejadian WHERE id='$id'");
+
+    if ($queryHapus) { ?>
+        <div class="alert alert-primary mt-3" role="alert">
+            Kejadian berhasil dihapus
         </div>
-    </div>
-<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+        <meta http-equiv="refresh" content="2; url=list-kejadian.php" />
+    <?php } else {
+        echo mysqli_error($con);
+    }
+}
+
+
+    if (isset($_POST["kembali"])) { ?>
+                <meta http-equiv="refresh" content="0; url=list-kejadian.php" />
+            <?php }
+    ?>
+</main>
+
+<script>lucide.createIcons();</script>
 </body>
 </html>
