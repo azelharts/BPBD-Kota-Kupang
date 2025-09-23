@@ -14,53 +14,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BPBD</title>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <title>BPBD – Tentang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
 
-<style>
-
-</style>
-
-<body>
+<body class="bg-gray-900 text-gray-100">
 <?php require "navbar.php"; ?>
-    <div class="container-fluid belakang">
-    <div>
-        <h2 class="text-center text-light mt-5">Tentang SIncan KotaKu</h2><br>
-            <p class="text-center text-light fw-semibold">Penanganan bencana perlu didukung oleh kemampuan mengumpulkan dan menyediakan data 
-            dan informasi yang akurat, sehingga dalam melakukan perencanaan, pelaksanaan maupun antisipasi penanganan 
-            bencana dapat dilakukan dengan baik, begitupun informasi yang diberikan atau dikeluarkan untuk masyarakat 
-            juga merupakan informasi yang valid dan akurat Sampai sekarang, format data dan informasi bencana juga 
-            masih beragam, ditambah perkembangan teknologi informasi yang sangat cepat dan telah masuk keberbagai 
-            bidang kehidupan, menjadikan jarak, tempat, dan waktu bukan lagi menjadi kendala yang berarti, maka penyebaran 
-            informasi kebencanaan yang resmi oleh pemerintah sangat diperlukaan untuk menghindari penyebaran informasi 
-            yang tidak benar yang dapat menyebabkan kepanikan dimasyarakat. Penyelenggaraan Penanggulangan Penanganan 
-            Bencana prinsipnya perlu didukung dengan ketersediaan data yang akurat, mutakhir, terpadu, dapat dipertanggungjawabkan, 
-            mudah diakses, dan dapat dibagipakaikan. BNPB sendiri telah menyediakan sebuah sarana penyimpanan data dan 
-            informasi kebencanaan berupa perangkat lunak aplikasi Data Informasi Bencana Indonesia (DIBI) yang dapat 
-            digunakan sebagai alat analisis kejadian dan dampak, selain itu  BNPB telah membangun sebuah aplikasi sistem 
-            informasi kebencanaan terpadu untuk mendukung semua proses informasi dan data kebencanaan sejak tahun 2010, 
-            seiring berjalannya waktu, melalui Peraturan Presiden nomor 95 tahun 2018 diterbitkan Sistim Pemerintahan 
-            Berbasis Elektronik, selain itu Peraturan Kepala BNPB nomor 9 Tahun 2013 tentang Pedoman Pengelolaan Informasi 
-            dan Dokumentasi dilingkungan BNPB, Perka Nomor 8 Tahun 2014 tentang Pedoman Pengelolaan Teknologi Informasi 
-            Kebencanaan dan yang baru saja diterbitkan yakni Peraturan BNPB Nomor 1 Tahun 2023 Tentang Satu Data Bencana. 
-            Lewat satu data bencana diharapkan peran serta baik dari BNPB dan BPBD-BPBD  di tingkat Provinsi maupun Kabupaten/Kota 
-            dapat mengintegrasikan data kebencanaan di daerah pada sistem yang telah dibangun, sehingga penyelenggaraan 
-            bencana baik pra bencana, saat bencana dan pasca bencana serta proses analisis data dan sistem informasi data 
-            berjalan secara optimal, tepat dan akurat serta meningkatkan profesionalisme kerja seluruh karyawan dalam melakukan 
-            pengelolaan data dan informasi kebencanaan untuk pengambilan keputusan secara tepat. Berangkat dari keadaan 
-            tersebut di atas, perlu di buatkan sebuah sistem informasi pada BPBD Kota Kupang sebagai sebuah sarana 
-            penyimpanan data dan informasi kebencanaan berbasis digital, dimana sistem ini akan menjadi data base kebencanaan, 
-            sebagai media integrasi bagi pakai data dan informasi, serta media publikasi kepada masyarakat, yang secara keseluruhan 
-            merupakan bagian dari Penyelenggaraan Penanggulangan Bencana. Sesuai dengan latar belakang yang telah dijelaskan diatas 
-            maka peserta mengangkat gagasan aksi perubahan dengan judul Optimalisasi Sistem Layanan pada BPBD Kota Kupang 
-            lewat  “SISTEM INFORMASI KEBENCANAAN KOTA KUPANG” (SIncan-KotaKu). </p>
+
+<main class="max-w-4xl mx-auto px-4 pt-32 pb-16">
+    <!-- heading -->
+    <h1 class="text-3xl md:text-4xl font-extrabold text-center text-white mb-10">
+        Tentang <span class="text-amber-400">SIncan KotaKu</span>
+    </h1>
+
+    <!-- content -->
+    <div class="prose prose-invert prose-amber max-w-none text-justify leading-relaxed space-y-5 text-gray-200">
+        <p>
+            Penanganan bencana perlu didukung oleh kemampuan mengumpulkan dan menyediakan data dan informasi yang akurat,
+            sehingga dalam melakukan perencanaan, pelaksanaan maupun antisipasi penanganan bencana dapat dilakukan dengan baik.
+            Begitupun informasi yang diberikan atau dikeluarkan untuk masyarakat juga merupakan informasi yang valid dan akurat.
+        </p>
+        <p>
+            Sampai sekarang, format data dan informasi bencana juga masih beragam, ditambah perkembangan teknologi informasi
+            yang sangat cepat dan telah masuk ke berbagai bidang kehidupan, menjadikan jarak, tempat, dan waktu bukan lagi
+            menjadi kendala yang berarti. Maka penyebaran informasi kebencanaan yang resmi oleh pemerintah sangat diperlukan
+            untuk menghindari penyebaran informasi yang tidak benar yang dapat menyebabkan kepanikan di masyarakat.
+        </p>
+        <p>
+            Penyelenggaraan Penanggulangan Bencana prinsipnya perlu didukung dengan ketersediaan data yang akurat, mutakhir,
+            terpadu, dapat dipertanggungjawabkan, mudah diakses, dan dapat dibagipakaikan. BNPB telah menyediakan sarana
+            berupa aplikasi Data Informasi Bencana Indonesia (DIBI) dan sistem informasi kebencanaan terpadu sejak 2010.
+        </p>
+        <p>
+            Lewat Peraturan BNPB Nomor 1 Tahun 2023 Tentang Satu Data Bencana, diharapkan peran serta BNPB dan BPBD di
+            tingkat Provinsi maupun Kabupaten/Kota dapat mengintegrasikan data kebencanaan pada sistem yang telah dibangun,
+            sehingga penyelenggaraan bencana—pra, saat, maupun pasca—serta proses analisis data berjalan secara optimal,
+            tepat dan akurat.
+        </p>
+        <p>
+            Berangkat dari keadaan tersebut, perlu dibuatkan sebuah sistem informasi pada BPBD Kota Kupang sebagai sarana
+            penyimpanan data dan informasi kebencanaan berbasis digital. Sistem ini akan menjadi database kebencanaan,
+            media integrasi bagi pakai data dan informasi, serta media publikasi kepada masyarakat, yang secara keseluruhan
+            merupakan bagian dari Penyelenggaraan Penanggulangan Bencana.
+        </p>
+        <p>
+            Sesuai dengan latar belakang yang telah dijelaskan, peserta mengangkat gagasan aksi perubahan dengan judul
+            <span class="font-semibold text-amber-400">“Optimalisasi Sistem Layanan pada BPBD Kota Kupang lewat SISTEM INFORMASI KEBENCANAAN KOTA KUPANG (SIncan-KotaKu)”</span>.
+        </p>
     </div>
-                <p class="text-center fst-italic mt-5 text-light">Ver 1.0 ~ copyright bpbdkotakupang@2024</p>
-            </div>
-        </div>
-    </div>
-<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- footer line -->
+    <p class="text-center text-sm text-gray-400 italic mt-10">Ver 1.0 ~ copyright bpbdkotakupang@2024</p>
+</main>
+
+<script>lucide.createIcons();</script>
 </body>
 </html>
