@@ -27,6 +27,9 @@ function generateRandomString($length = 10)
     <title>Kejadian Detail</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.9/dist/tagify.css">
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.9/dist/tagify.min.js"></script>
 </head>
 
 <body class="bg-gray-50 text-gray-800">
@@ -73,24 +76,17 @@ function generateRandomString($length = 10)
             <h2 class="text-lg font-bold mb-2">B.1 Data Kejadian Bencana</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-semibold mb-1">1. Nama Kejadian</label>
-                    <input type="text" name="nama" value="<?= htmlspecialchars(
-                        $data["nama"]
-                    ) ?>" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
-                </div>
+  <label class="block text-sm font-semibold mb-1">1. Nama Kejadian</label>
+  <input name="nama" id="nama" value="<?= htmlspecialchars($data['nama']) ?>"
+         placeholder="ketik / pilih" required
+         class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
+</div>
                 <div>
-                    <label class="block text-sm font-semibold mb-1">2. Jenis Kejadian</label>
-                    <select name="jenis" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
-                        <option value="<?= htmlspecialchars(
-                            $data["jenis_id"]
-                        ) ?>"><?= htmlspecialchars(
-    $data["jenis_id"]
-) ?></option>
-                        <option value="Bencana Alam">Bencana Alam</option>
-                        <option value="Bencana NonAlam">Bencana NonAlam</option>
-                        <option value="Bencana Sosial">Bencana Sosial</option>
-                    </select>
-                </div>
+  <label class="block text-sm font-semibold mb-1">2. Jenis Kejadian</label>
+  <input name="jenis" id="jenis" value="<?= htmlspecialchars($data['jenis_id']) ?>"
+         placeholder="ketik / pilih" required
+         class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
+</div>
                 <div>
                     <label class="block text-sm font-semibold mb-1">3. Tanggal Kejadian</label>
                     <input type="date" name="tanggal" value="<?= $data[
@@ -119,22 +115,17 @@ function generateRandomString($length = 10)
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold mb-1">Kecamatan</label>
-                    <select name="kecamatan" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
-                        <option value="<?= htmlspecialchars(
-                            $data["kecamatan"]
-                        ) ?>"><?= htmlspecialchars(
-    $data["kecamatan"]
-) ?></option>
-                        <option>Alak</option><option>Kota Raja</option><option>Kota Lama</option><option>Oebobo</option><option>Kelapa Lima</option><option>Maulafa</option>
-                    </select>
-                </div>
+  <label class="block text-sm font-semibold mb-1">Kecamatan</label>
+  <input name="kecamatan" id="kecamatan" value="<?= htmlspecialchars($data['kecamatan']) ?>"
+         placeholder="ketik / pilih" required
+         class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
+</div>
                 <div>
-                    <label class="block text-sm font-semibold mb-1">Kelurahan</label>
-                    <input type="text" name="kelurahan" value="<?= htmlspecialchars(
-                        $data["kelurahan"]
-                    ) ?>" required class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
-                </div>
+  <label class="block text-sm font-semibold mb-1">Kelurahan</label>
+  <input name="kelurahan" id="kelurahan" value="<?= htmlspecialchars($data['kelurahan']) ?>"
+         placeholder="ketik / pilih" required
+         class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400">
+</div>
                 <div class="md:col-span-2">
                     <label class="block text-sm font-semibold mb-1">Letak Geografis</label>
                     <input type="text" name="geografis" value="<?= htmlspecialchars(
@@ -468,9 +459,9 @@ function generateRandomString($length = 10)
             <button type="submit" name="simpan" class="inline-flex items-center gap-2 px-6 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition">
                 <i data-lucide="save" class="w-4 h-4"></i>Simpan
             </button>
-            <button type="submit" name="kembali" class="inline-flex items-center gap-2 px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold transition">
-                <i data-lucide="arrow-left" class="w-4 h-4"></i>Kembali
-            </button>
+            <a href="list-kejadian.php" name="kembali" class="inline-flex items-center gap-2 px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold transition">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+            </a>
             <button type="submit" name="hapus" onclick="return confirm('Hapus data ini?')" class="inline-flex items-center gap-2 px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>Hapus
             </button>
@@ -500,85 +491,118 @@ function generateRandomString($length = 10)
     </form>
 
     <?php
-    if (isset($_POST["simpan"])) {
-        $nama = htmlspecialchars($_POST["nama"]);
-        $jenis = htmlspecialchars($_POST["jenis"]);
-        $tanggal = htmlspecialchars($_POST["tanggal"]);
-        $waktu = htmlspecialchars($_POST["waktu"]);
-        $provinsi = htmlspecialchars($_POST["provinsi"]);
-        $kabkota = htmlspecialchars($_POST["kabkota"]);
-        $kecamatan = htmlspecialchars($_POST["kecamatan"]);
-        $kelurahan = htmlspecialchars($_POST["kelurahan"]);
-        $geografis = htmlspecialchars($_POST["geografis"]);
-        $sebab = htmlspecialchars($_POST["sebab"]);
-        $kronologis = htmlspecialchars($_POST["kronologis"]);
-        $deskripsi = htmlspecialchars($_POST["deskripsi"]);
-        $sumber = htmlspecialchars($_POST["sumber"]);
-        $kondisi = htmlspecialchars($_POST["kondisi"]);
-        $status_darurat = htmlspecialchars($_POST["status_darurat"]);
-        $upaya = htmlspecialchars($_POST["upaya"]);
-        $sebaran = htmlspecialchars($_POST["sebaran"]);
-
-        $target_dir = "images/";
-        $nama_file = basename($_FILES["foto"]["name"]);
-        $target_file = $target_dir . $nama_file;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $image_size = $_FILES["foto"]["size"];
-        $random_name = generateRandomString(20);
-        $new_name = $random_name . "." . $imageFileType;
-
-        if (
-            $nama == "" ||
-            $jenis == "" ||
-            $tanggal == "" ||
-            $waktu == "" ||
-            $kelurahan == "" ||
-            $status_darurat == ""
-        ) { ?>
-                        <div class="alert alert-warning mt-3" role="alert">
-                            Nama, Jenis, Tanggal, Waktu, Lokasi, dan status darurat wajib diisi
-                        </div>
-            <?php } else {$queryUpdate = mysqli_query(
-                $con,
-                "UPDATE kejadian SET jenis_id='$jenis',
-                    nama='$nama', tanggal='$tanggal', waktu='$waktu', provinsi='$provinsi', kabkota='$kabkota',
-                    kecamatan='$kecamatan', kelurahan='$kelurahan', geografis='$geografis', sebab='$sebab',
-                    kronologis='$kronologis', deskripsi='$deskripsi', sumber='$sumber', kondisi='$kondisi',
-                    status_darurat='$status_darurat', upaya='$upaya', sebaran='$sebaran' WHERE id=$id"
-            );
-
-            if ($nama_file != "") {
-                if ($image_size > 5000000) { ?>
-                        <div class="alert alert-warning mt-3" role="alert">
-                         File tidak boleh lebih dari 5 Mb
-                        </div>
-            <?php } else {if (
-                        $imageFileType != "jpg" &&
-                        $imageFileType != "png" &&
-                        $imageFileType != "gif"
-                    ) { ?>
-                            <div class="alert alert-warning mt-3" role="alert">
-                                File foto Wajib bertype jpg atau png atau gif
-                            </div>
-            <?php } else {move_uploaded_file(
-                            $_FILES["foto"]["tmp_name"],
-                            $target_dir . $new_name
-                        );
-                        $queryUpdate = mysqli_query(
-                            $con,
-                            "UPDATE kejadian SET foto='$new_name' WHERE id='$id'"
-                        );
-
-                        if ($queryUpdate) { ?>
-                                <div class="alert alert-primary mt-3" role="alert">
-                                    Kejadian berhasil diupdate
-                                </div>
-
-                                <meta http-equiv="refresh" content="2; url=list-kejadian.php" />
-            <?php } else {echo mysqli_error($con);}}}
-            }}
+if (isset($_POST["simpan"])) {
+    /* ---------- helper: ensure we always store valid JSON arrays ---------- */
+    function toJsonArray($key) {
+        $raw = $_POST[$key] ?? '';
+        if (!$raw) return '[]';
+        $decoded = json_decode($raw, true);
+        return (json_last_error() === JSON_ERROR_NONE && is_array($decoded))
+               ? $raw : '[]';
     }
-    if (isset($_POST["hapus"])) {
+
+    /* ---------- basic single-value fields ---------- */
+    $tanggal        = htmlspecialchars($_POST["tanggal"]);
+    $waktu          = htmlspecialchars($_POST["waktu"]);
+    $provinsi       = htmlspecialchars($_POST["provinsi"]);
+    $kabkota        = htmlspecialchars($_POST["kabkota"]);
+    $geografis      = htmlspecialchars($_POST["geografis"]);
+    $sebab          = htmlspecialchars($_POST["sebab"] ?? '');
+    $kronologis     = htmlspecialchars($_POST["kronologis"] ?? '');
+    $deskripsi      = htmlspecialchars($_POST["deskripsi"] ?? '');
+    $sumber         = htmlspecialchars($_POST["sumber"] ?? '');
+    $kondisi        = htmlspecialchars($_POST["kondisi"] ?? '');
+    $status_darurat = htmlspecialchars($_POST["status_darurat"]);
+    $upaya          = htmlspecialchars($_POST["upaya"] ?? '');
+    $sebaran        = htmlspecialchars($_POST["sebaran"] ?? '');
+    $kib            = htmlspecialchars($_POST["kib"] ?? '');
+
+    /* ---------- multi-value fields (JSON) ---------- */
+    $nama      = toJsonArray("nama");
+    $jenis     = toJsonArray("jenis");
+    $kecamatan = toJsonArray("kecamatan");
+    $kelurahan = toJsonArray("kelurahan");
+
+    /* ---------- foto upload (your old logic) ---------- */
+    $new_name = $data["foto"]; // keep existing if no new file
+    if (!empty($_FILES["foto"]["name"])) {
+        $target_dir    = "images/";
+        $imageFileType = strtolower(pathinfo($_FILES["foto"]["name"], PATHINFO_EXTENSION));
+        $random_name   = generateRandomString(20);
+        $new_name      = $random_name . "." . $imageFileType;
+
+        if (in_array($imageFileType, ["jpg", "png", "gif"]) && $_FILES["foto"]["size"] <= 5000000) {
+            // delete old file if exists
+            if ($data["foto"] && file_exists($target_dir . $data["foto"])) {
+                unlink($target_dir . $data["foto"]);
+            }
+            move_uploaded_file($_FILES["foto"]["tmp_name"], $target_dir . $new_name);
+        }
+    }
+
+    /* ---------- build the giant UPDATE ---------- */
+    $sets = [];
+    // core fields
+    $sets[] = "jenis_id   = '$jenis'";
+    $sets[] = "nama       = '$nama'";
+    $sets[] = "tanggal    = '$tanggal'";
+    $sets[] = "waktu      = '$waktu'";
+    $sets[] = "provinsi   = '$provinsi'";
+    $sets[] = "kabkota    = '$kabkota'";
+    $sets[] = "kecamatan  = '$kecamatan'";
+    $sets[] = "kelurahan  = '$kelurahan'";
+    $sets[] = "geografis  = '$geografis'";
+    $sets[] = "sebab      = '$sebab'";
+    $sets[] = "kronologis = '$kronologis'";
+    $sets[] = "deskripsi  = '$deskripsi'";
+    $sets[] = "sumber     = '$sumber'";
+    $sets[] = "kondisi    = '$kondisi'";
+    $sets[] = "status_darurat = '$status_darurat'";
+    $sets[] = "upaya      = '$upaya'";
+    $sets[] = "sebaran    = '$sebaran'";
+    $sets[] = "kib        = '$kib'";
+    $sets[] = "foto       = '$new_name'";
+
+    // all the 100+ numeric fields (keep your old list)
+    $numericFields = [
+        "aml","amp","dwsml","dwsmp","lnml","lnmp","tml","tmp",
+        "ahl","ahp","dwshl","dwshp","lnhl","lnhp","thl","thp",
+        "alkl","alkp","dwsll","dwslp","lnll","lnlp","tll","tlp",
+        "atl","atp","dwstl","dwstp","lntl","lntp","ttl","ttp",
+        "aul","aup","dwsul","dwsup","lnul","lnup","tul","tup",
+        "sawah","txsawah","lahan","txlahan","kebun","txkebun",
+        "hutan","txhutan","kolam","txkolam",
+        "kb","ks","kr","ktrd","txkios",
+        "pb","ps","pr","ptrd","txpabrik",
+        "txair","txlampu","txkom","txiri","txjln","txtrans","txbbm",
+        "jb","js","jr","jtrd","txjembatan",
+        "rmhb","rmhs","rmhr","rmhtrd","txrmh",
+        "skob","skos","skor","skotrd","txsko",
+        "rib","ris","rir","ritrd","txri",
+        "faskesb","faskess","faskesr","faskestrd","txfaskes",
+        "ktrb","ktrs","ktrr","ktrtrd","txktr",
+        "psrb","psrs","psrr","psrtrd","txpsr",
+        "layanan"
+    ];
+    foreach ($numericFields as $f) {
+        $val = htmlspecialchars($_POST[$f] ?? '');
+        $sets[] = "$f = '$val'";
+    }
+
+    $sql = "UPDATE kejadian SET " . implode(", ", $sets) . " WHERE id = $id";
+    $ok  = mysqli_query($con, $sql);
+
+    if ($ok) { ?>
+        <div class="alert alert-primary mt-3" role="alert">
+            Kejadian berhasil diupdate
+        </div>
+        <meta http-equiv="refresh" content="2; url=list-kejadian.php" />
+    <?php } else {
+        echo "<div class='alert alert-danger mt-3'>Gagal: " . mysqli_error($con) . "</div>";
+    }
+}
+
+if (isset($_POST["hapus"])) {
     // Ambil nama file foto dulu
     $result = mysqli_query($con, "SELECT foto FROM kejadian WHERE id='$id'");
     $row = mysqli_fetch_assoc($result);
@@ -601,14 +625,47 @@ function generateRandomString($length = 10)
         echo mysqli_error($con);
     }
 }
-
-
-    if (isset($_POST["kembali"])) { ?>
-                <meta http-equiv="refresh" content="0; url=list-kejadian.php" />
-            <?php }
-    ?>
+?>
 </main>
 
 <script>lucide.createIcons();</script>
+<script>
+/* whitelist data */
+const namaList = [
+  "Banjir rob","Banjir bandang","Banjir dan tanah longsor","Banjir drainase dan selokan",
+  "Banjir waduk","Banjir genangan","Tanggul jebol","Longsor","Gerakan tanah",
+  "Gelombang pasang","Abrasi Pantai","Puting beliung","Angin kencang","Angin topan",
+  "Hujan es","Siklon tropis","Suhu udara ekstrem","Kekeringan meteorologis",
+  "Kekeringan hidrologis","Kekeringan pertanian","Kebakaran hutan","Kebakaran lahan",
+  "Kebakaran lahan gambut","Gempa tektonik","Gempa vulkanik","Gempabumi runtuhan",
+  "Tsunami seismogenik","Tsunami nonseismik","Tsunami lokal","Tsunami regional",
+  "Tsunami jarak","Tsunami meteorologi","Mikrotsunami",
+  "Awan panas guguran-aliran piroklastik guguran","Awan panas-aliran piroklastik",
+  "Banjir lahar","Hujan abu vulkanik","Gas vulkanik beracun","Wabah penyakit",
+  "Epidemi","Kebakaran gedung dan pemukiman","Kegagalan industri",
+  "Kecelakaan industri","Konflik Sosial","Teror","Kerusuhan Sosial"
+];
+const jenisList = ["Bencana Alam","Bencana NonAlam","Bencana Sosial"];
+const kecList  = ["Alak","Kota Raja","Kota Lama","Oebobo","Kelapa Lima","Maulafa"];
+const kelList  = [
+  "Alak","Batuplat","Fatufeto","Mantasi","Manulai II","Manutapen","Naioni","Namosain",
+  "Nunbaun Delha","Nunbaun Sabu","Nunhila","Penkase Oeleta","Kelapa Lima","Lasiana",
+  "Oesapa","Oesapa Barat","Oesapa Selatan","Airnona","Bakunase","Bakunase II",
+  "Fontein","Kuanino","Naikoten I","Naikoten II","Nunleu","Air Mata","Bonipoi",
+  "Fatubesi","Lai-lai Bisi Kopan","Merdeka","Nefonaek","Oeba","Pasir Panjang",
+  "Solor","Tode Kisar","Belo","Fatukoa","Kolhua","Maulafa","Naikolan","Naimata",
+  "Oepura","Penfui","Sikumana","Fatululi","Kayu Putih","Liliba","Oebobo","Oebufu",
+  "Oetete","Tuak Daun Merah"
+];
+
+/* turn each input into a pill-style multi-select */
+["#nama","#jenis","#kecamatan","#kelurahan"].forEach(sel=>{
+  new Tagify(document.querySelector(sel), {
+    whitelist: sel==="#nama"?namaList : sel==="#jenis"?jenisList : sel==="#kecamatan"?kecList : kelList,
+    maxTags: 20,
+    dropdown: { enabled: 0, maxItems: 50, highlightFirst: true }
+  });
+});
+</script>
 </body>
 </html>

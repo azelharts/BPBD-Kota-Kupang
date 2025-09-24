@@ -78,78 +78,84 @@ $jumlahKejadian = count($kejadianData);
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-                <?php foreach ($kejadianData as $d): ?>
-                    <tr class="hover:bg-gray-50 transition align-top">
-                        <td class="p-4 font-semibold text-amber-600 align-top">#<?= $d[
-                            "id"
-                        ] ?></td>
-                        <td class="p-4 align-top"><?= htmlspecialchars(
-                            $d["nama"]
-                        ) ?></td>
-                        <td class="p-4 align-top"><?= htmlspecialchars(
-                            $d["jenis_id"]
-                        ) ?></td>
-                        <td class="p-4 align-top"><?= htmlspecialchars(
-                            $d["tanggal"]
-                        ) ?></td>
-                        <td class="p-4 align-top"><?= htmlspecialchars(
-                            $d["waktu"]
-                        ) ?></td>
-                        <td class="p-4 align-top"><?= htmlspecialchars(
-                            $d["provinsi"]
-                        ) ?></td>
-                        
-                        <!-- truncated fields -->
-                        <td class="p-4 max-w-[150px] truncate align-top" title="<?= htmlspecialchars(
-                            $d["sebab"]
-                        ) ?>">
-                            <?= htmlspecialchars($d["sebab"]) ?>
-                        </td>
-                        <td class="p-4 max-w-[180px] truncate align-top" title="<?= htmlspecialchars(
-                            $d["kronologis"]
-                        ) ?>">
-                            <?= htmlspecialchars($d["kronologis"]) ?>
-                        </td>
-                        <td class="p-4 max-w-[200px] truncate align-top" title="<?= htmlspecialchars(
-                            $d["deskripsi"]
-                        ) ?>">
-                            <?= htmlspecialchars($d["deskripsi"]) ?>
-                        </td>
-                        <td class="p-4 max-w-[150px] truncate align-top" title="<?= htmlspecialchars(
-                            $d["sumber"]
-                        ) ?>">
-                            <?= htmlspecialchars($d["sumber"]) ?>
-                        </td>
-                        <td class="p-4 max-w-[150px] truncate align-top" title="<?= htmlspecialchars(
-                            $d["kondisi"]
-                        ) ?>">
-                            <?= htmlspecialchars($d["kondisi"]) ?>
-                        </td>
-                        <td class="p-4 max-w-[120px] truncate align-top" title="<?= htmlspecialchars(
-                            $d["status_darurat"]
-                        ) ?>">
-                            <span class="px-2 py-1 rounded-full text-xs bg-amber-100 text-amber-700">
-                                <?= htmlspecialchars($d["status_darurat"]) ?>
-                            </span>
-                        </td>
-                        
-                        <!-- action -->
-                        <td class="p-4 align-top">
-                            <div class="flex items-center justify-center gap-2">
-                                <a href="kejadian-detail.php?p=<?= $d["id"] ?>" 
-                                   class="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-700 transition" 
-                                   title="Detail">
-                                    <i data-lucide="eye" class="w-4 h-4"></i>
-                                </a>
-                                <a href="preview.php?p=<?= $d["id"] ?>" 
-                                   class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition" 
-                                   title="Print">
-                                    <i data-lucide="printer" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+                
+                <?php
+function formatJsonValues($jsonString) {
+    $decoded = json_decode($jsonString, true);
+    $values = [];
+
+    if (is_array($decoded)) {
+        foreach ($decoded as $item) {
+            if (isset($item['value'])) {
+                $values[] = $item['value'];
+            }
+        }
+    }
+
+    return implode(", ", $values);
+}
+?>
+
+<?php foreach ($kejadianData as $d): ?>
+    <tr class="hover:bg-gray-50 transition align-top">
+        <td class="p-4 font-semibold text-amber-600 align-top">
+            #<?= $d["id"] ?>
+        </td>
+
+        <!-- Nama -->
+        <td class="p-4 align-top">
+            <?= htmlspecialchars(formatJsonValues($d["nama"])) ?>
+        </td>
+
+        <!-- Jenis -->
+        <td class="p-4 align-top">
+            <?= htmlspecialchars(formatJsonValues($d["jenis_id"])) ?>
+        </td>
+
+        <td class="p-4 align-top"><?= htmlspecialchars($d["tanggal"]) ?></td>
+        <td class="p-4 align-top"><?= htmlspecialchars($d["waktu"]) ?></td>
+        <td class="p-4 align-top"><?= htmlspecialchars($d["provinsi"]) ?></td>
+
+        <!-- truncated fields -->
+        <td class="p-4 max-w-[150px] truncate align-top" title="<?= htmlspecialchars($d["sebab"]) ?>">
+            <?= htmlspecialchars($d["sebab"]) ?>
+        </td>
+        <td class="p-4 max-w-[180px] truncate align-top" title="<?= htmlspecialchars($d["kronologis"]) ?>">
+            <?= htmlspecialchars($d["kronologis"]) ?>
+        </td>
+        <td class="p-4 max-w-[200px] truncate align-top" title="<?= htmlspecialchars($d["deskripsi"]) ?>">
+            <?= htmlspecialchars($d["deskripsi"]) ?>
+        </td>
+        <td class="p-4 max-w-[150px] truncate align-top" title="<?= htmlspecialchars($d["sumber"]) ?>">
+            <?= htmlspecialchars($d["sumber"]) ?>
+        </td>
+        <td class="p-4 max-w-[150px] truncate align-top" title="<?= htmlspecialchars($d["kondisi"]) ?>">
+            <?= htmlspecialchars($d["kondisi"]) ?>
+        </td>
+        <td class="p-4 max-w-[120px] truncate align-top" title="<?= htmlspecialchars($d["status_darurat"]) ?>">
+            <span class="px-2 py-1 rounded-full text-xs bg-amber-100 text-amber-700">
+                <?= htmlspecialchars($d["status_darurat"]) ?>
+            </span>
+        </td>
+
+        <!-- action -->
+        <td class="p-4 align-top">
+            <div class="flex items-center justify-center gap-2">
+                <a href="kejadian-detail.php?p=<?= $d["id"] ?>" 
+                   class="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-700 transition" 
+                   title="Detail">
+                    <i data-lucide="eye" class="w-4 h-4"></i>
+                </a>
+                <a href="preview.php?p=<?= $d["id"] ?>" 
+                   class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 transition" 
+                   title="Print">
+                    <i data-lucide="printer" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </td>
+    </tr>
+<?php endforeach; ?>
+
             </tbody>
         </table>
     </div>
