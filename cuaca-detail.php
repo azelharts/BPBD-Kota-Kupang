@@ -39,7 +39,7 @@
                 <a href="dashboard.php" class="hover:text-amber-600">Dashboard</a>
             </li>
             <li>/</li>
-            <li><a href="listcuaca.php" class="hover:text-amber-600">Data Cuaca</a></li>
+            <li><a href="list-cuaca.php" class="hover:text-amber-600">Data Cuaca</a></li>
             <li>/</li>
             <li class="text-amber-600 font-medium">Detail #<?= $data['id'] ?></li>
         </ol>
@@ -148,7 +148,7 @@
             }
 
             if(isset ($_POST['kembali'])){
-                echo '<meta http-equiv="refresh" content="0; url=listcuaca.php" />';
+                echo '<meta http-equiv="refresh" content="0; url=list-cuaca.php" />';
             }
             ?>
         </form>
